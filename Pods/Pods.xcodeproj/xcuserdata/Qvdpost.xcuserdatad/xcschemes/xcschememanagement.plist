@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SFFocusViewLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3AC914AB3C048FB0518536B08E5A5142</key>
+		<key>57594CC573FC6B72E85732E9BFA5EF7D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BBE7AC82428D6A85304D1453668CF363</key>
+		<key>699580BAF743B1BAAE647D8F2733BAA3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D7CE29FB928EC9355A5A813C2A821E05</key>
 		<dict>
 			<key>primary</key>
 			<true/>
