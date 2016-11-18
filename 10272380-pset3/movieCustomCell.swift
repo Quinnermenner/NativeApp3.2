@@ -12,6 +12,14 @@ class movieCustomCell: UITableViewCell {
 
     @IBOutlet weak var movieDescription: UILabel!
     @IBOutlet weak var movieImage: UIImageView!
+    @IBOutlet weak var movieYear: UILabel!
+    @IBOutlet weak var movieDirector: UILabel!
+    @IBOutlet weak var movieCast: UILabel!
+    @IBOutlet weak var movieIMDB: UILabel!
+    @IBOutlet weak var movieMetascore: UILabel!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		16A5C2EF91FFBDDBE6A70177 /* Pods_10272380_pset3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27BE60FF3115F622F74A825 /* Pods_10272380_pset3.framework */; };
 		39376C101DDF48ED008FEF91 /* WatchListViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39376C0F1DDF48ED008FEF91 /* WatchListViewViewController.swift */; };
-		39376C121DDF5303008FEF91 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39376C111DDF5303008FEF91 /* DetailsViewController.swift */; };
 		39376C161DDF53A5008FEF91 /* movieCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39376C151DDF53A5008FEF91 /* movieCustomCell.swift */; };
 		39A2AEE21DDE30D2008A5BAA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A2AEE11DDE30D2008A5BAA /* AppDelegate.swift */; };
 		39A2AEE41DDE30D2008A5BAA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A2AEE31DDE30D2008A5BAA /* ViewController.swift */; };
@@ -22,7 +21,6 @@
 /* Begin PBXFileReference section */
 		09CFDD6DB15BB07AFE433123 /* Pods-10272380-pset3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-10272380-pset3.release.xcconfig"; path = "Pods/Target Support Files/Pods-10272380-pset3/Pods-10272380-pset3.release.xcconfig"; sourceTree = "<group>"; };
 		39376C0F1DDF48ED008FEF91 /* WatchListViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchListViewViewController.swift; sourceTree = "<group>"; };
-		39376C111DDF5303008FEF91 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		39376C151DDF53A5008FEF91 /* movieCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = movieCustomCell.swift; sourceTree = "<group>"; };
 		39A2AEDE1DDE30D2008A5BAA /* 10272380-pset3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "10272380-pset3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39A2AEE11DDE30D2008A5BAA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 				39A2AEE81DDE30D2008A5BAA /* Assets.xcassets */,
 				39A2AEEA1DDE30D2008A5BAA /* LaunchScreen.storyboard */,
 				39A2AEED1DDE30D2008A5BAA /* Info.plist */,
-				39376C111DDF5303008FEF91 /* DetailsViewController.swift */,
 				39376C151DDF53A5008FEF91 /* movieCustomCell.swift */,
 			);
 			path = "10272380-pset3";
@@ -228,7 +225,6 @@
 				39A2AEE41DDE30D2008A5BAA /* ViewController.swift in Sources */,
 				39A2AEE21DDE30D2008A5BAA /* AppDelegate.swift in Sources */,
 				39376C101DDF48ED008FEF91 /* WatchListViewViewController.swift in Sources */,
-				39376C121DDF5303008FEF91 /* DetailsViewController.swift in Sources */,
 				39376C161DDF53A5008FEF91 /* movieCustomCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

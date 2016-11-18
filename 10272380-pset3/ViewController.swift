@@ -12,6 +12,7 @@ import SwiftyJSON
 class ViewController: UIViewController {
     
     var movieQuery = [JSON]()
+    var watchList = [JSON]()
 
     @IBOutlet weak var movieYear: UITextField!
     @IBOutlet weak var movieTitle: UITextField!
@@ -21,17 +22,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        let defaults = UserDefaults.standard
+        if let defaultsMovieList = defaults.object(forKey: "watchList") {
+            watchList = defaultsMovieList as! [JSON]
+        }
         // Do any additional setup after loading the view, typically from a nib.
         
         navigationController?.navigationItem.title = "Watch List"
         
     }
     
-    
-    @IBAction func showWatchList(_ sender: Any) {
-        shouldPerformSegue(withIdentifier: "segueToWatchList", sender: self)
+    @IBAction func buttonToWatchList(_ sender: Any) {
+        performSegue(withIdentifier: "segueToWatchList", sender: nil)
+        print("tap")
     }
-    
     
     @IBAction func movieSearch(_ sender: Any) {
         if let title = movieTitle?.text! {
@@ -51,13 +55,28 @@ class ViewController: UIViewController {
     
     
     func getMovieJson(name: String, year: String) -> JSON {
-        let url = URL(string: "https://www.omdbapi.com/?s=" + name + "&y=" + year + "&plot=short&r=json")
+        let newName = name.replacingOccurrences(of: " ", with: "+")
+        let url = URL(string: "https://www.omdbapi.com/?s=" + newName + "&y=" + year + "&plot=short&r=json")
         let data = try? Data(contentsOf: url!)
         let json = JSON(data: data!)
         return json
     }
     
+    func updateUserdefaults(title: String, year: String) {
+        let newTitle = title.replacingOccurrences(of: " ", with: "+")
+        let defaults = UserDefaults.standard
+        let url = URL(string: "https://www.omdbapi.com/?t=" + newTitle + "&y=" + year + "&plot=short&r=json")
+        let data = try? Data(contentsOf: url!)
+        let json = JSON(data: data!)
+        watchList.append(json)
+        defaults.set(watchList, forKey: "watchList")
+    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let watchListVC = segue.destination as? WatchListViewViewController {
+            watchListVC.movieList = movieQuery
+        }
+    }
     
 
 
@@ -70,9 +89,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        title = movieQuery[indexPath.row]["Title"].string
+        let json = movieQuery[indexPath.row]
         let cell = searchTable.dequeueReusableCell(withIdentifier: "movieCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "movieCell")
-        cell.textLabel?.text = title
+        cell.textLabel?.text = json["Title"].string
+        cell.detailTextLabel?.text = json["Year"].string
         
         return cell
     }
@@ -88,6 +108,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let cellAction = UITableViewRowAction(style: .normal, title: "Save") { (action, index) in
             
             // TODO: Save IMDB ID -> [String]()
+            let title = self.movieQuery[indexPath.row]["Title"].string
+            let year = self.movieQuery[indexPath.row]["Year"].string
+            self.updateUserdefaults(title: title!, year: year!)
+            
             
         }
         cellAction.backgroundColor = UIColor.blue
