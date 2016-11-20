@@ -1,25 +1,19 @@
 //
-//  movieCustomCell.swift
+//  movieSearchCell.swift
 //  10272380-pset3
 //
-//  Created by Quinten van der Post on 18/11/2016.
+//  Created by Quinten van der Post on 20/11/2016.
 //  Copyright © 2016 Quinten van der Post. All rights reserved.
 //
 
 import UIKit
 
-class movieCustomCell: UITableViewCell {
+class movieSearchCell: UITableViewCell {
 
-    @IBOutlet weak var movieDescription: UILabel!
     @IBOutlet weak var movieImage: UIImageView!
-    @IBOutlet weak var movieYear: UILabel!
-    @IBOutlet weak var movieDirector: UILabel!
-    @IBOutlet weak var movieIMDB: UILabel!
-    @IBOutlet weak var movieMetascore: UILabel!
     @IBOutlet weak var movieTitle: UILabel!
-    
-    var expanded = false
-    
+    @IBOutlet weak var movieYear: UILabel!
+
     
     
     override func awakeFromNib() {
@@ -32,7 +26,5 @@ class movieCustomCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    
 
 }

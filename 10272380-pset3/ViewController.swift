@@ -8,11 +8,13 @@
 
 import UIKit
 import SwiftyJSON
+import SDWebImage
 
 class ViewController: UIViewController {
     
     var movieQuery = [JSON]()
     var watchList = [JSON]()
+    var userList = [String]()
 
     @IBOutlet weak var movieYear: UITextField!
     @IBOutlet weak var movieTitle: UITextField!
@@ -21,20 +23,17 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Movie finder"
         self.hideKeyboardWhenTappedAround()
-        let defaults = UserDefaults.standard
-        if let defaultsMovieList = defaults.object(forKey: "watchList") {
-            watchList = defaultsMovieList as! [JSON]
-        }
+        searchTable.rowHeight = 130
+        
         // Do any additional setup after loading the view, typically from a nib.
         
-        navigationController?.navigationItem.title = "Watch List"
         
     }
     
     @IBAction func buttonToWatchList(_ sender: Any) {
         performSegue(withIdentifier: "segueToWatchList", sender: nil)
-        print("tap")
     }
     
     @IBAction func movieSearch(_ sender: Any) {
@@ -43,14 +42,17 @@ class ViewController: UIViewController {
                 movieQuery.removeAll()
                 let json = getMovieJson(name: title,year:  year)
                 for i in 0...json["Search"].count {
-                    movieQuery.append(json["Search"][i])
+                    if json["Search"][i] != JSON.null {
+                        print(json["Search"][i])
+                        movieQuery.append(json["Search"][i])
+                    }
                 }
                 DispatchQueue.main.async {
                     self.searchTable.reloadData()
                 }
+                dismissKeyboard()
             }
         }
-        print(movieQuery[0]["Title"].string ?? "No title found.")
     }
     
     
@@ -64,21 +66,16 @@ class ViewController: UIViewController {
     
     func updateUserdefaults(title: String, year: String) {
         let newTitle = title.replacingOccurrences(of: " ", with: "+")
+        let newYear = year.trimmingCharacters(in: NSCharacterSet(charactersIn: "0123456789").inverted)
         let defaults = UserDefaults.standard
-        let url = URL(string: "https://www.omdbapi.com/?t=" + newTitle + "&y=" + year + "&plot=short&r=json")
+        let url = URL(string: "https://www.omdbapi.com/?t=" + newTitle + "&y=" + newYear + "&plot=short&r=json")
         let data = try? Data(contentsOf: url!)
         let json = JSON(data: data!)
-        watchList.append(json)
-        defaults.set(watchList, forKey: "watchList")
+        userList = defaults.array(forKey: "watchList") as! [String]
+        userList.append(json.rawString()!)
+        defaults.set(userList, forKey: "watchList")
+        defaults.synchronize()
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let watchListVC = segue.destination as? WatchListViewViewController {
-            watchListVC.movieList = movieQuery
-        }
-    }
-    
-
 
 }
 
@@ -89,10 +86,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let cell = searchTable.dequeueReusableCell(withIdentifier: "movieCell") as! movieSearchCell
         let json = movieQuery[indexPath.row]
-        let cell = searchTable.dequeueReusableCell(withIdentifier: "movieCell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "movieCell")
-        cell.textLabel?.text = json["Title"].string
-        cell.detailTextLabel?.text = json["Year"].string
+        cell.movieImage.sd_setImage(with: URL(string: json["Poster"].stringValue), placeholderImage: UIImage(named: "Placeholder"))
+        cell.movieTitle.text = json["Title"].stringValue
+        cell.movieYear.text = json["Year"].stringValue
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         
         return cell
     }
@@ -105,20 +104,17 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let cellAction = UITableViewRowAction(style: .normal, title: "Save") { (action, index) in
-            
-            // TODO: Save IMDB ID -> [String]()
-            let title = self.movieQuery[indexPath.row]["Title"].string
-            let year = self.movieQuery[indexPath.row]["Year"].string
-            self.updateUserdefaults(title: title!, year: year!)
+        let cellAction = UITableViewRowAction(style: .default, title: "Save") { (action, index) in
+            let title = self.movieQuery[indexPath.row]["Title"].stringValue
+            let year = self.movieQuery[indexPath.row]["Year"].stringValue
+            self.updateUserdefaults(title: title, year: year)
+            self.searchTable.reloadRows(at: [indexPath], with: .none)
             
             
         }
         cellAction.backgroundColor = UIColor.blue
         
         return [cellAction]
-        
-        
     }
     
     
